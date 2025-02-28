@@ -39,7 +39,6 @@ const ProfilePage = () => {
       setUserInfo({
         name: user.displayName || 'No Name Provided',
         email: user.email,
-        id: user.uid,
         photoURL: user.photoURL || '/assets/search.png',
       });
       setNewDisplayName(user.displayName || "");
@@ -118,7 +117,6 @@ const ProfilePage = () => {
             <div>
               <h3 className="text-xl font-bold">{userInfo.name}</h3>
               <p className="text-gray-600">{userInfo.email}</p>
-              <p className="text-gray-600">ID: {userInfo.id}</p>
             </div>
           </div>
         ) : (

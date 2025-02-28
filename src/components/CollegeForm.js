@@ -6,65 +6,60 @@ const CollegeForm = ({ setMessage, setCollegeInfo, setLoading }) => {
   const [disabled, setDisabled] = useState(false);
   const [collegeSuggestions, setCollegeSuggestions] = useState([]);
   const [query, setQuery] = useState("");
-
   const throttleTimeoutRef = useRef(null);
 
+  // Throttle helper to limit API calls
   const throttle = (callback, delay) => {
     if (throttleTimeoutRef.current) {
-      clearTimeout(throttleTimeoutRef.current); 
+      clearTimeout(throttleTimeoutRef.current);
     }
     throttleTimeoutRef.current = setTimeout(() => {
       callback();
     }, delay);
   };
 
+  // Fetch college suggestions based on the query
   const fetchCollegeSuggestions = async (query) => {
     if (query.length < 3) {
-      setCollegeSuggestions([]); // Clear suggestions if query is too short
+      setCollegeSuggestions([]);
       return;
     }
-
     try {
-      const response = await getCollegeSuggestions(query); // Call the backend API to fetch major suggestions
+      const response = await getCollegeSuggestions(query);
       if (response.success) {
-        setCollegeSuggestions(response.data); // Update suggestions state with data from backend
+        setCollegeSuggestions(response.data);
       } else {
-        setCollegeSuggestions([]); // Clear suggestions if no data is found
+        setCollegeSuggestions([]);
       }
     } catch (error) {
       console.error("Error fetching college suggestions:", error);
     }
   };
 
-  // Handle input changes and update query with throttling
-  const handleQueryChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-    throttle(() => fetchCollegeSuggestions(value), 1000); // Throttle API call to once every 1 second
-  };
-
-
+  // Handle input change: update college name and query, and fetch suggestions
   const handleInputChange = (e) => {
-    setCollegeName(e.target.value);
+    const value = e.target.value;
+    setCollegeName(value);
+    setQuery(value);
+    throttle(() => fetchCollegeSuggestions(value), 1000);
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     setLoading(true);
     setDisabled(true);
 
     try {
       const result = await handleCollegeSearchOrAdd(collegeName);
-
       if (result.success) {
         setMessage(result.message);
         setCollegeInfo(result.data);
       } else {
         setMessage(result.message);
       }
-
       setCollegeName("");
+      setQuery("");
     } catch (error) {
       console.error("Error details:", error);
       setMessage("An error occurred: " + error.message);
@@ -77,19 +72,19 @@ const CollegeForm = ({ setMessage, setCollegeInfo, setLoading }) => {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="space-y-6 p-8 bg-gradient-to-r from-indigo-100 via-purple-200 to-pink-100 rounded-xl shadow-xl max-w-lg mx-auto"
-      value={query}
-      onChange={handleQueryChange}
+      className="space-y-6 p-6 sm:p-8 bg-gradient-to-r from-indigo-100 via-purple-200 to-pink-100 rounded-xl shadow-xl max-w-lg mx-auto"
     >
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">Find Your College</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-4">
+        Find Your College
+      </h2>
       
       <div className="relative">
         <input
           type="text"
-          placeholder="If the college you are looking for does not appear in the search bar, Please type it "
+          placeholder="If the college you are looking for does not appear, please type it"
           value={collegeName}
           onChange={handleInputChange}
-          className="w-full p-4 pr-12 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 ease-in-out"
+          className="w-full p-3 sm:p-4 pr-12 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 ease-in-out"
           disabled={disabled}
         />
         <svg 
@@ -97,12 +92,14 @@ const CollegeForm = ({ setMessage, setCollegeInfo, setLoading }) => {
           xmlns="http://www.w3.org/2000/svg" 
           fill="none" 
           viewBox="0 0 24 24" 
-          stroke="currentColor">
+          stroke="currentColor"
+        >
           <path 
-            stroke-linecap="round" 
-            stroke-linejoin="round" 
-            stroke-width="2" 
-            d="M17 17l4 4m0 0l-4 4m4-4H3m14 0a9 9 0 10-9-9 9 9 0 009 9z" />
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth="2" 
+            d="M17 17l4 4m0 0l-4 4m4-4H3m14 0a9 9 0 10-9-9 9 9 0 009 9z" 
+          />
         </svg>
       </div>
 
@@ -112,7 +109,11 @@ const CollegeForm = ({ setMessage, setCollegeInfo, setLoading }) => {
             <li
               key={index}
               className="p-3 cursor-pointer hover:bg-gray-200 hover:text-indigo-600 transition-all"
-              onClick={() => setQuery(college)} // Set query to the selected major
+              onClick={() => {
+                setQuery(college);
+                setCollegeName(college);
+                setCollegeSuggestions([]);
+              }}
             >
               {college}
             </li>

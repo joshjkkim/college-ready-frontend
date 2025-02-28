@@ -1,53 +1,59 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar.js";
-import Checklist from "../components/CollegeChecklist.js";
-import MajorStats from "../components/MajorStats.js";
-import Resources from "../components/CollegeResources.js"
-import Demographics from "../components/CollegeDemographics.js";
-import { auth } from "../firebase.js";
-import LoadingScreen from '../components/LoadingScreen.js'; 
-import { getCollegeResourcesDemographics } from "../api/api.js";
+import Sidebar from "../components/Sidebar";
+import Checklist from "../components/CollegeChecklist";
+import MajorStats from "../components/MajorStats";
+import Resources from "../components/CollegeResources";
+import Demographics from "../components/CollegeDemographics";
+import { auth } from "../firebase";
+import LoadingScreen from "../components/LoadingScreen";
+import { getCollegeResourcesDemographics } from "../api/api";
 
 const UserPage = () => {
   const user = auth.currentUser;
   const [selectedCollege, setSelectedCollege] = useState(null);
-  const [, setColleges] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(false); // Track sidebar collapse state
-  const [isEditMode, setIsEditMode] = useState(false); 
+  const [colleges, setColleges] = useState([]);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [notification, setNotification] = useState(null);
   const [loading, setLoading] = useState(false);
   const [resources, setResources] = useState(null);
   const [demographics, setDemographics] = useState(null);
 
   const handleSelectCollege = (college) => {
-    if(!isEditMode){
+    if (!isEditMode) {
       setSelectedCollege(college);
-      setNotification(null)
+      setNotification(null);
     } else {
       setNotification({
         message: "Cannot switch colleges while in edit mode!",
         type: "error",
       });
     }
-    
   };
 
   const handleCollegeRemoved = (collegeToRemove) => {
     setColleges((prevColleges) =>
-      prevColleges.filter((college) => college.collegeId !== collegeToRemove.collegeId)
+      prevColleges.filter(
+        (college) => college.collegeId !== collegeToRemove.collegeId
+      )
     );
-
-    if (selectedCollege && selectedCollege.collegeId === collegeToRemove.collegeId && selectedCollege.collegeName) {
-      setSelectedCollege("");
+    if (selectedCollege && selectedCollege.collegeId === collegeToRemove.collegeId) {
+      setSelectedCollege(null);
     }
   };
 
   useEffect(() => {
     const fetchResources = async () => {
       if (selectedCollege) {
-        console.log("Fetching resources for user:", user.uid, "college:", selectedCollege.collegeName);
+        console.log(
+          "Fetching resources for user:",
+          user.uid,
+          "college:",
+          selectedCollege.collegeName
+        );
         try {
-          const { success, resources, demographics } = await getCollegeResourcesDemographics(user.uid, selectedCollege.collegeName);
+          const { success, resources, demographics } =
+            await getCollegeResourcesDemographics(user.uid, selectedCollege.collegeName);
           if (success) {
             setResources(resources);
             setDemographics(demographics);
@@ -64,20 +70,21 @@ const UserPage = () => {
   }, [selectedCollege, user.uid]);
 
   return (
-    <div className="flex min-h-screen">
+    // Adding overflow-x-hidden prevents horizontal scrolling on mobile
+    <div className="relative flex min-h-screen overflow-x-auto max-w-screen">
       {loading && <LoadingScreen />}
 
+      {/* Sidebar is rendered as a fixed overlay on mobile via its own internal state */}
       <Sidebar
         userId={user.uid}
         onSelectCollege={handleSelectCollege}
         onCollegeRemoved={handleCollegeRemoved}
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
-        loading={loading}
         setLoading={setLoading}
       />
 
-      <div className={`flex-1 p-6 transition-all`}>
+      <div className="flex-1 p-6 transition-all">
         {notification && (
           <div
             className={`p-4 mt-5 mb-4 rounded-lg text-center text-white ${
@@ -108,7 +115,6 @@ const UserPage = () => {
         />
 
         <MajorStats selectedCollege={selectedCollege} />
-
       </div>
     </div>
   );

@@ -71,9 +71,9 @@ const Checklist = ({ userId, selectedCollege, isEditMode, setIsEditMode }) => {
   // Toggle edit mode
   const toggleEditMode = () => {
     if (!isEditMode) {
-      setTempChecklist(JSON.parse(JSON.stringify(checklist))); // Deep copy of the checklist for editing
+      setTempChecklist(JSON.parse(JSON.stringify(checklist))); // Deep copy for editing
     } else {
-      setTempChecklist(null); // Clear the temporary checklist if exiting edit mode
+      setTempChecklist(null); // Clear temporary checklist when exiting edit mode
     }
     setIsEditMode(!isEditMode);
   };
@@ -84,9 +84,8 @@ const Checklist = ({ userId, selectedCollege, isEditMode, setIsEditMode }) => {
     if (Array.isArray(newTempChecklist[section])) {
       newTempChecklist[section][itemIndex].text = newText;
     }
-    setTempChecklist(newTempChecklist); // Update state immediately to reflect the text change
+    setTempChecklist(newTempChecklist);
   };
-  
 
   // Handle adding a new item
   const handleAddItem = (section) => {
@@ -94,112 +93,105 @@ const Checklist = ({ userId, selectedCollege, isEditMode, setIsEditMode }) => {
     if (Array.isArray(newTempChecklist[section])) {
       newTempChecklist[section].push({ text: "", completed: false });
     }
-    setTempChecklist(newTempChecklist); // Update state to reflect the new item immediately
+    setTempChecklist(newTempChecklist);
   };
-  
 
   // Handle deleting an item
   const handleDeleteItem = (section, itemIndex) => {
     const newTempChecklist = { ...tempChecklist };
     if (Array.isArray(newTempChecklist[section])) {
-      newTempChecklist[section].splice(itemIndex, 1); // Remove item
+      newTempChecklist[section].splice(itemIndex, 1);
     }
-    setTempChecklist(newTempChecklist); // Update state to reflect the change immediately
+    setTempChecklist(newTempChecklist);
   };
-  
 
   // Save changes to checklist
   const handleSaveChanges = async () => {
-    setChecklist(tempChecklist); // Save changes to the main checklist
-    setIsEditMode(false); // Exit edit mode
+    setChecklist(tempChecklist);
+    setIsEditMode(false);
 
     try {
-      await updateChecklist(userId, selectedCollege.collegeName, null, null, null, tempChecklist); // Save to backend
+      await updateChecklist(userId, selectedCollege.collegeName, null, null, null, tempChecklist);
     } catch (error) {
       console.error("Failed to update checklist:", error);
     }
   };
 
   if (!checklist) {
-    return;
+    return null;
   }
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
-
-
-      <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+    <div className="p-4 md:p-6 bg-white shadow-lg rounded-lg overflow-x-hidden">
+      <h2 className="text-xl md:text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
         {selectedCollege.collegeName} Checklist
       </h2>
-  
-      {/* Button to toggle between view and edit mode */}
-      <div className="flex items-center space-x-4 mb-4">
+      
+      {/* Toggle and Save Buttons */}
+      <div className="flex flex-wrap items-center space-x-4 mb-4">
         <button
-            onClick={toggleEditMode}
-            className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
+          onClick={toggleEditMode}
+          className="bg-gray-200 text-sm md:text-base p-2 rounded-full hover:bg-gray-300"
         >
-            {isEditMode ? "Cancel Changes" : "Edit Checklist"}
+          {isEditMode ? "Cancel Changes" : "Edit Checklist"}
         </button>
-
         {isEditMode && (
-            <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+          <button
             onClick={handleSaveChanges}
-            >
+            className="bg-blue-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-blue-600"
+          >
             Save
-            </button>
+          </button>
         )}
-        </div>
+      </div>
+      
+      <ProgressBar checklistState={checklistState} />
+      <br />
 
-  
-      <ProgressBar checklistState={checklistState} /> <br></br>
-
-    {/* Render checklist items */}
       {Object.entries(tempChecklist || checklist).map(([section, items]) => (
-        
         <div key={section} className="mb-6">
-            
-          <h3 className="text-xl font-semibold mb-2 text-blue-600 capitalize">
+          <h3 className="text-lg md:text-xl font-semibold mb-2 text-blue-600 capitalize">
             {section.replace(/([A-Z])/g, " $1")}
           </h3>
           <ul className="space-y-2">
             {items.map((item, index) => (
               <li
                 key={index}
-                className="flex items-center space-x-4 bg-gray-100 p-3 rounded-lg hover:shadow-md"
+                className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 bg-gray-100 p-3 rounded-lg hover:shadow-md"
               >
                 {!isEditMode ? (
                   <>
-                    <input
-                      type="checkbox"
-                      className="w-5 h-5 accent-blue-500"
-                      checked={checklistState[`${section}_${index}`] || false}
-                      onChange={() =>
-                        handleCheckboxChange(section, index, !checklistState[`${section}_${index}`])
-                      }
-                    />
-                    <span className="text-gray-700">
-                      {item.text || `${item.type} - ${item.date}`}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        className="w-5 h-5 accent-blue-500"
+                        checked={checklistState[`${section}_${index}`] || false}
+                        onChange={() =>
+                          handleCheckboxChange(section, index, !checklistState[`${section}_${index}`])
+                        }
+                      />
+                      <span className="text-gray-700 text-sm md:text-base">
+                        {item.text || `${item.type} - ${item.date}`}
+                      </span>
+                    </div>
                   </>
                 ) : (
                   <>
-                    {/* Editable fields */}
                     {item.type ? (
-                      <>
-                        <span className="text-gray-700">{item.type} - {item.date}</span>
-                      </>
+                      <span className="text-gray-700 text-sm md:text-base">
+                        {item.type} - {item.date}
+                      </span>
                     ) : (
                       <input
                         type="text"
-                        className="border rounded p-1 flex-1"
-                        value={item.text} // This should still be linked to tempChecklist's state
-                        onChange={(e) => handleEditItem(section, index, e.target.value)} // This triggers the update immediately
+                        className="border border-gray-300 rounded p-1 flex-1 text-sm md:text-base"
+                        value={item.text}
+                        onChange={(e) => handleEditItem(section, index, e.target.value)}
                       />
                     )}
                     <button
-                      className="bg-red-500 text-white px-2 py-1 rounded"
                       onClick={() => handleDeleteItem(section, index)}
+                      className="bg-red-500 text-white text-xs md:text-sm px-2 py-1 rounded mt-1 sm:mt-0"
                     >
                       Delete
                     </button>
@@ -208,22 +200,18 @@ const Checklist = ({ userId, selectedCollege, isEditMode, setIsEditMode }) => {
               </li>
             ))}
           </ul>
-          {/* Button to add new item */}
           {isEditMode && (
             <button
               onClick={() => handleAddItem(section)}
-              className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+              className="bg-blue-500 text-white text-xs md:text-sm px-4 py-2 rounded mt-4"
             >
               Add Item
             </button>
           )}
         </div>
       ))}
-  
-      {/* Display save and cancel buttons in edit mode */}
-      
     </div>
-  );  
+  );
 };
 
 export default Checklist;

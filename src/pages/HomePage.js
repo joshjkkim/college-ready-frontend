@@ -26,30 +26,34 @@ const HomePage = ({ user }) => {
 
   return (
     <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
-
-      
       <div className="relative z-10">
-
-      <div className="min-h-screen flex flex-col items-center justify-center bg-opacity-80 text-center text-white drop-shadow-xl">
-      <div className="fixed inset-0 w-full h-full">
-      <ConstellationBackground />
-        </div>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-opacity-80 text-center text-white drop-shadow-xl">
+          <div className="fixed inset-0 w-full h-full">
+            <ConstellationBackground />
+          </div>
       
-        <div
+          <div
             className={`p-12 rounded-lg max-w-xl mx-auto transition-opacity duration-1000 ease-in-out ${
-            isLoaded ? "opacity-100" : "opacity-0"
+              isLoaded ? "opacity-100" : "opacity-0"
             }`}
-        >
+          >
+
+            <div className="flex items-center justify-center mb-4">
+              <img src="/icon.png" alt="CollegeReady Logo" className="h-32 w-auto mr-2" />
+            </div>
+
             <h1
-            className={`text-5xl font-bold mb-6 transition-all duration-1000 transform ${
+              className={`text-5xl font-bold mb-6 transition-all duration-1000 transform ${
                 isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
+              }`}
             >
-            Are you College Ready?
+              Are you College Ready?
             </h1>
 
+          
+
             <TypingEffect
-            messages={[
+              messages={[
                 "Find your College",
                 "Find your future",
                 "Stay on top of your Deadlines",
@@ -60,151 +64,134 @@ const HomePage = ({ user }) => {
                 "Find your next big thing",
                 "Find Essay Topic Ideas",
                 "Get Inspired with Essay Examples from top Universities",
-            ]}
-            speed={75}
-            delay={1000}
-            fontSize={"text-2xl"}
+              ]}
+              speed={75}
+              delay={1000}
+              fontSize={"text-2xl"}
             />
-        </div>
+          </div>
 
-        <div className="mt-6">
+          <div className="mt-6">
             {!user ? (
-            <button
+              <button
                 onClick={handleLoginRedirect}
                 className="bg-gradient-to-br from-indigo-600 to-blue-500 text-white text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-110"
-            >
+              >
                 Sign In
-            </button>
+              </button>
             ) : (
-            <button
+              <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-110"
-            >
+              >
                 Sign Out
-            </button>
+              </button>
             )}
+          </div>
         </div>
-        </div>
-        </div>
-      
-      <div
-        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
-          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
-        }`}
-      >
-        <div className="w-1/2">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Search for Colleges</h2>
-          <p className="text-xl mb-6 text-gray-700">
+      </div>
+
+      {/* Feature 1: Search for Colleges */}
+      <div className={`flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"}`}>
+        <div className="w-full md:w-1/2 mb-6 md:mb-0">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Search for Colleges</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
             Find the perfect college that suits your interests, location, and goals.
           </p>
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <img
             src="/assets/search.png"
             alt="College Search"
-            className="rounded-lg transform transition-all hover:scale-110 hover:rotate-3 duration-500 ease-in-out hover:shadow-xl max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all hover:scale-110 hover:rotate-3 duration-500 ease-in-out hover:shadow-xl w-full h-auto"
           />
         </div>
       </div>
 
-      <div className="flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all">
-        <div className="w-1/2 order-2 p-5">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Track Your Deadlines</h2>
-          <p className="text-xl mb-6 text-gray-700">
+      {/* Feature 2: Track Your Deadlines */}
+      <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all">
+        <div className="w-full md:w-1/2 order-2 md:order-1 p-5">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Track Your Deadlines</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
             Stay organized and keep track of all your application deadlines with our checklist tool.
           </p>
         </div>
-        <div className="w-1/2 order-1">
+        <div className="w-full md:w-1/2 order-1 md:order-2">
           <img
             src="/assets/checklist.png" 
             alt="Track Deadlines"
-            className="rounded-lg transform transition-all hover:scale-110 hover:-rotate-3 duration-500 ease-in-out hover:shadow-xl max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all hover:scale-110 hover:-rotate-3 duration-500 ease-in-out hover:shadow-xl w-full h-auto"
           />
         </div>
       </div>
 
-      {/* Feature 3: Discover Major */}
-      <div
-        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
-          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
-        }`}
-      >
-        <div className="w-1/2">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Discover Your Major</h2>
-          <p className="text-xl mb-6 text-gray-700">
+      {/* Feature 3: Discover Your Major */}
+      <div className={`flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"}`}>
+        <div className="w-full md:w-1/2 mb-6 md:mb-0">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Discover Your Major</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
             Explore your interests and find extracurriculars and essay topics tailored to your major.
           </p>
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <img
             src="/assets/major.png"
             alt="Discover Major"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 w-full h-auto"
           />
         </div>
       </div>
 
       {/* Feature 4: Essay Examples */}
-      <div
-        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
-          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
-        }`}
-      >
-        <div className="w-1/2 order-2 p-5">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Essay Examples</h2>
-          <p className="text-xl mb-6 text-gray-700">
+      <div className={`flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"}`}>
+        <div className="w-full md:w-1/2 order-2 md:order-1 p-5">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Essay Examples</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
             Get inspired by successful essays from students who got into top universities.
           </p>
         </div>
-        <div className="w-1/2 order-1">
+        <div className="w-full md:w-1/2 order-1 md:order-2">
           <img
             src="/assets/essays.png"
             alt="Essay Examples"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 w-full h-auto"
           />
         </div>
       </div>
 
-      <div
-        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
-          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
-        }`}
-      >
-        <div className="w-1/2">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Stay on Top</h2>
-          <p className="text-xl mb-6 text-gray-700">
-            Keep Track of your deadlines with our calendar and deadline email notifications.
+      {/* Feature 5: Stay on Top */}
+      <div className={`flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"}`}>
+        <div className="w-full md:w-1/2 mb-6 md:mb-0">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Stay on Top</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
+            Keep track of your deadlines with our calendar and deadline email notifications.
           </p>
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <img
             src="/assets/calendar.png"
             alt="Track Deadlines"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 w-full h-auto"
           />
         </div>
       </div>
 
-      <div
-        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
-          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
-        }`}
-      >
-        <div className="w-1/2 order-2 p-5">
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Compare Stats</h2>
-          <p className="text-xl mb-6 text-gray-700">
-            Compare metrics on colleges to determine your best fit
+      {/* Feature 6: Compare Stats */}
+      <div className={`flex flex-col md:flex-row items-center justify-between p-8 md:p-16 mt-10 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"}`}>
+        <div className="w-full md:w-1/2 order-2 md:order-1 p-5">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-800">Compare Stats</h2>
+          <p className="text-lg md:text-xl mb-4 text-gray-700">
+            Compare metrics on colleges to determine your best fit.
           </p>
         </div>
-        <div className="w-1/2 order-1">
+        <div className="w-full md:w-1/2 order-1 md:order-2">
           <img
             src="/assets/compare.png"
             alt="Compare Colleges"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 max-w-full max-h-[800px]"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 w-full h-auto"
           />
         </div>
       </div>
-
     </div>
   );
 };

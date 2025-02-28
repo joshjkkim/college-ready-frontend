@@ -14,7 +14,7 @@ const CollegeDashboard = () => {
       <div className="container mx-auto px-4">
         <header className="mb-8 text-center">
           <h1 className="text-4xl font-extrabold text-gray-800 mb-2">
-            College Prep Dashboard
+            College Search
           </h1>
           <p className="text-lg text-gray-600">
             Search for colleges or compare them side-by-side.

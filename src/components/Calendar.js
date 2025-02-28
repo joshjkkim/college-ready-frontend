@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
-import '../App.css';
-import { getDeadlinesForUser, getNotesForUser } from '../api/api';
-import { saveAs } from 'file-saver';
+import React, { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import "../App.css";
+import { getDeadlinesForUser, getNotesForUser } from "../api/api";
+import { saveAs } from "file-saver";
 
 // Helper: Format a Date object as YYYY-MM-DD for filtering
-const formatDate = (d) => d.toISOString().split('T')[0];
+const formatDate = (d) => d.toISOString().split("T")[0];
 
 // ICS Helper: Format a date in ICS format (YYYYMMDDTHHmmssZ)
 const formatDateICS = (date) =>
@@ -20,7 +20,7 @@ const generateICSContent = (events) => {
   const header = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Your Company//Your Product//EN"
+    "PRODID:-//Your Company//Your Product//EN",
   ];
 
   const eventStrings = events.map((event, index) => {
@@ -36,7 +36,7 @@ const generateICSContent = (events) => {
       `DTEND:${dtend}`,
       `SUMMARY:${event.title}`,
       `DESCRIPTION:${event.description}`,
-      "END:VEVENT"
+      "END:VEVENT",
     ].join("\r\n");
   });
 
@@ -63,7 +63,7 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
         }
         const { success: notesSuccess, data: notesData } = await getNotesForUser(userId);
         if (notesSuccess && notesData) {
-          const filteredNotes = notesData.filter(note => note.deadline);
+          const filteredNotes = notesData.filter((note) => note.deadline);
           setNoteDeadlines(filteredNotes);
         }
       }
@@ -77,7 +77,7 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
 
   const getDeadlinesForDate = (selectedDate) => {
     const formattedSelected = formatDate(selectedDate);
-    return combinedDeadlines.filter(deadline => {
+    return combinedDeadlines.filter((deadline) => {
       const noteDateStr = deadline.deadlineDate || deadline.deadline;
       const noteDate = new Date(noteDateStr);
       return formatDate(noteDate) === formattedSelected;
@@ -90,7 +90,7 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
   };
 
   const tileContent = ({ date, view }) => {
-    if (view === 'month') {
+    if (view === "month") {
       const deadlinesForDate = getDeadlinesForDate(date);
       if (deadlinesForDate.length > 0) {
         const firstDeadline = deadlinesForDate[0];
@@ -98,12 +98,15 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
         const gradientClass = isCustom
           ? "bg-gradient-to-r from-green-500 to-blue-400"
           : "bg-gradient-to-r from-red-500 to-orange-400";
-        const displayText = deadlinesForDate.length > 1
-          ? `⚠️ ${deadlinesForDate.length} Deadlines`
-          : (firstDeadline.collegeName || firstDeadline.title);
+        const displayText =
+          deadlinesForDate.length > 1
+            ? `⚠️ ${deadlinesForDate.length} Deadlines`
+            : firstDeadline.collegeName || firstDeadline.title;
         return (
           <div className="deadline-marker flex justify-center items-center">
-            <span className={`text-xs text-white ${gradientClass} rounded-md px-2 py-1`}>
+            <span
+              className={`text-[0.7rem] md:text-xs text-white ${gradientClass} rounded-md px-1 py-0.5 md:px-2 md:py-1`}
+            >
               {displayText}
             </span>
           </div>
@@ -111,10 +114,10 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
       }
     }
   };
-
+  
   // Mass export: Create an ICS file from all deadlines and trigger a download
   const exportAllDeadlinesToICS = () => {
-    const events = combinedDeadlines.map(deadline => {
+    const events = combinedDeadlines.map((deadline) => {
       const eventDate = new Date(deadline.deadlineDate || deadline.deadline);
       const start = eventDate;
       const end = new Date(eventDate.getTime() + 60 * 60 * 1000); // 1-hour event duration
@@ -122,13 +125,13 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
         title: deadline.collegeName || deadline.title || "Deadline",
         start,
         end,
-        description: deadline.deadlineType || "Deadline"
+        description: deadline.deadlineType || "Deadline",
       };
     });
-    
+
     const icsContent = generateICSContent(events);
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    saveAs(blob, 'deadlines.ics');
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    saveAs(blob, "deadlines.ics");
   };
 
   useEffect(() => {
@@ -138,10 +141,12 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
   }, [userId]);
 
   return (
-    <div className="calendar-container max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6 text-gray-900">Deadlines Calendar</h1>
-      
-      <div className="calendar mb-6">
+    <div className="calendar-container max-w-6xl mx-auto p-4 sm:p-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold mb-4 text-gray-900 text-center">
+        Deadlines Calendar
+      </h1>
+
+      <div className="calendar mb-4 sm:mb-6">
         <Calendar
           onChange={onDateChange}
           value={date}
@@ -151,19 +156,19 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
       </div>
 
       {/* Mass Export Button */}
-      <div className="mb-6 flex justify-center">
+      <div className="mb-4 sm:mb-6 flex justify-center">
         <button
           onClick={exportAllDeadlinesToICS}
-          className="text-lg text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow-md"
+          className="text-sm sm:text-lg text-white bg-blue-600 hover:bg-blue-700 px-3 sm:px-4 py-2 sm:py-3 rounded-md shadow-md"
         >
-          ⬇️ Download Calendar Data (ics file)
+          ⬇️ Download Calendar Data (ICS file)
         </button>
       </div>
 
       {/* Display deadlines for the selected date */}
-      <div className="deadlines-list mt-6 space-y-4">
+      <div className="deadlines-list mt-4 sm:mt-6 space-y-4">
         {selectedDeadlines.length === 0 ? (
-          <p className="text-gray-500">No deadlines for this date.</p>
+          <p className="text-gray-500 text-sm text-center">No deadlines for this date.</p>
         ) : (
           <ul className="space-y-4">
             {selectedDeadlines.map((deadline, index) => {
@@ -178,24 +183,24 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
               const title = encodeURIComponent(deadline.collegeName || deadline.title || "Deadline");
               const details = encodeURIComponent(deadline.deadlineType || "Deadline");
               const googleCalendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startICS}/${endICS}&details=${details}`;
-              
+
               return (
                 <li key={index}>
-                  <div className="deadline bg-gradient-to-r from-purple-100 to-blue-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                    <h3 className="text-xl font-bold text-blue-700">
+                  <div className="deadline bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <h3 className="text-lg sm:text-xl font-bold text-blue-700">
                       {deadline.collegeName || deadline.title}
                     </h3>
-                    <p className="text-gray-700 mt-2 bg-white rounded-lg mr-2 p-4 break-all whitespace-normal">
+                    <p className="text-gray-700 mt-2 bg-white rounded-lg p-2 break-words text-sm sm:text-base">
                       {deadline.deadlineType || deadline.content || ""}
                     </p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      {new Date(noteDateStr).toLocaleDateString()} 
+                    <p className="text-xs sm:text-sm text-gray-500 mt-2">
+                      {new Date(noteDateStr).toLocaleDateString()}
                     </p>
                     <a
                       href={googleCalendarLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 inline-block text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-md"
+                      className="mt-2 inline-block text-xs sm:text-sm text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md"
                     >
                       Add to Google Calendar
                     </a>
@@ -207,18 +212,22 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
         )}
       </div>
 
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="text-lg mt-6 text-white bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-blue-600 hover:to-indigo-600 shadow-lg p-4 rounded-lg"
-      >
-        <strong>{isCollapsed ? "Reveal all Deadlines" : "Hide Deadlines"}</strong>
-      </button>
+      <div className="flex justify-center mt-4 sm:mt-6">
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="text-sm sm:text-lg text-white bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-blue-600 hover:to-indigo-600 shadow-md px-3 sm:px-4 py-2 sm:py-3 rounded-lg"
+        >
+          <strong>{isCollapsed ? "Reveal all Deadlines" : "Hide Deadlines"}</strong>
+        </button>
+      </div>
 
       <div
-        className={`deadlines-list mt-6 transition-all duration-300 overflow-hidden bg-gradient-to-r from-indigo-50 via-purple-100 to-pink-50 p-4 rounded-lg ${isCollapsed ? "max-h-10" : "max-h-[100vh] overflow-y-auto"}`}
+        className={`deadlines-list mt-4 sm:mt-6 transition-all duration-300 bg-gradient-to-r from-indigo-50 via-purple-100 to-pink-50 p-4 rounded-lg ${
+          isCollapsed ? "max-h-10 overflow-y-hidden" : "max-h-[100vh] overflow-y-auto"
+        }`}
       >
         {combinedDeadlines.length === 0 ? (
-          <p className="text-gray-500">No deadlines available.</p>
+          <p className="text-gray-500 text-sm">No deadlines available.</p>
         ) : (
           <ul>
             {combinedDeadlines.map((deadline, index) => {
@@ -233,20 +242,20 @@ const DeadlineCalendar = ({ userId, isCollapsed, setIsCollapsed, loading, setLoa
               const title = encodeURIComponent(deadline.collegeName || deadline.title || "Deadline");
               const details = encodeURIComponent(deadline.deadlineType || "Deadline");
               const googleCalendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startICS}/${endICS}&details=${details}`;
-              
+
               return (
                 <li key={index} className="deadline-item mb-4">
                   <div className="deadline bg-gradient-to-r from-indigo-100 via-purple-200 to-pink-100 p-4 rounded-lg shadow-md">
-                    <h3 className="text-xl font-bold">{deadline.collegeName || deadline.title}</h3>
-                    <p className="text-gray-600">{deadline.deadlineType || ""}</p>
-                    <p className="text-sm text-gray-500">
+                    <h3 className="text-lg font-bold">{deadline.collegeName || deadline.title}</h3>
+                    <p className="text-gray-600 text-sm">{deadline.deadlineType || ""}</p>
+                    <p className="text-xs text-gray-500">
                       {new Date(noteDateStr).toLocaleDateString()}
                     </p>
                     <a
                       href={googleCalendarLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 inline-block text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md text-sm"
+                      className="mt-2 inline-block text-xs text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded-md"
                     >
                       Add to Google Calendar
                     </a>
