@@ -7,6 +7,7 @@ const SearchPage = () => {
   const [message, setMessage] = useState("");
   const [collegeInfo, setCollegeInfo] = useState(null);
   const [loading, setLoading] = useState(false); // Track loading state
+  const [displayNote, setDisplayNote] =useState(true);
 
   // Function to handle form updates and stop loading when done
   const handleUpdate = (info, msg) => {
@@ -27,6 +28,39 @@ const SearchPage = () => {
           ⚠️ Warning: Information might not be accurate due to the data provided. You are allowed to edit any and all deadlines, essays, etc., on your own checklist. You are strongly advised to check out the links provided to find accurate information.
         </p>
       </div>
+
+      <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 mb-6 rounded-lg">
+        
+        <p className="text-lg font-medium">
+          ❗ Note: Autocorrect only displays colleges that have been cached so far.
+          If you want to search for a college that has not been yet searched for, type in the full Correct College name.
+        </p>
+
+        <button
+        onClick={() => setDisplayNote((prev) => !prev)}
+        className=" p-2 w-3/12 p-2 text-white bg-gradient-to-br from-green-400 to-green-700 font-semibold rounded-lg mb-4 hover:bg-gray-400 transition-all duration-300"
+        >
+        {displayNote ? "Show Examples" : "Hide Examples"}
+        </button>
+        <ul className={`mt-4 overflow-hidden list-inside text-sm space-y-3 transition-all duration-500 ${
+        displayNote ? "max-h-0" : "max-h-[100vh] overflow-y-auto"
+      }`}>
+            <li>
+              <span role="img" aria-label="wrong">❌</span> UCLA<br />
+              <span role="img" aria-label="correct">✅</span> University of California, Los Angeles
+            </li>
+            <li>
+              <span role="img" aria-label="wrong">❌</span> Berkeley<br />
+              <span role="img" aria-label="correct">✅</span> University of California, Berkeley
+            </li>
+            <li>
+              <span role="img" aria-label="wrong">❌</span> Caltech<br />
+              <span role="img" aria-label="correct">✅</span> California Institute of Technology
+            </li>
+          </ul>
+      </div>
+
+
 
       <CollegeForm setMessage={(msg) => handleUpdate(collegeInfo, msg)} setCollegeInfo={(info) => handleUpdate(info, message)} setLoading={setLoading} />
 

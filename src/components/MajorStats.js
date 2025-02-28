@@ -83,6 +83,10 @@ const MajorStats = ({ selectedCollege }) => {
     }
   };
 
+  if(!selectedCollege) {
+    return;
+  }
+
   return (
     <div className="major-stats p-6 bg-gradient-to-r from-indigo-100 via-purple-200 to-pink-100 rounded-lg shadow-md mt-6 max-w-8xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-center bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">Major Stats</h2>

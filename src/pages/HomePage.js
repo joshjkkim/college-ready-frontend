@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TypingEffect from "../components/TypingEffect";
 import { signOutUser } from "../firebase";
 import { useNavigate } from "react-router-dom"; 
+import ConstellationBackground from "../components/Constellation";
 
 const HomePage = ({ user }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,8 +25,16 @@ const HomePage = ({ user }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-purple-200 to-blue-200 bg-cover bg-center bg-no-repeat drop-shadow-xl">
+    <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
+
+      
+      <div className="relative z-10">
+
       <div className="min-h-screen flex flex-col items-center justify-center bg-opacity-80 text-center text-white drop-shadow-xl">
+      <div className="fixed inset-0 w-full h-full">
+      <ConstellationBackground />
+        </div>
+      
         <div
             className={`p-12 rounded-lg max-w-xl mx-auto transition-opacity duration-1000 ease-in-out ${
             isLoaded ? "opacity-100" : "opacity-0"
@@ -58,14 +67,13 @@ const HomePage = ({ user }) => {
             />
         </div>
 
-        {/* Button Container */}
         <div className="mt-6">
             {!user ? (
             <button
                 onClick={handleLoginRedirect}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-110"
+                className="bg-gradient-to-br from-indigo-600 to-blue-500 text-white text-lg px-8 py-4 rounded-full shadow-lg transition-all transform hover:scale-110"
             >
-                Sign In with Google
+                Sign In
             </button>
             ) : (
             <button
@@ -75,6 +83,7 @@ const HomePage = ({ user }) => {
                 Sign Out
             </button>
             )}
+        </div>
         </div>
         </div>
       
@@ -93,12 +102,11 @@ const HomePage = ({ user }) => {
           <img
             src="/assets/search.png"
             alt="College Search"
-            className="rounded-lg transform transition-all hover:scale-110 hover:rotate-3 duration-500 ease-in-out hover:shadow-xl"
+            className="rounded-lg transform transition-all hover:scale-110 hover:rotate-3 duration-500 ease-in-out hover:shadow-xl max-w-full max-h-[800px]"
           />
         </div>
       </div>
 
-      {/* Feature 2: Track Deadlines */}
       <div className="flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all">
         <div className="w-1/2 order-2 p-5">
           <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Track Your Deadlines</h2>
@@ -108,9 +116,9 @@ const HomePage = ({ user }) => {
         </div>
         <div className="w-1/2 order-1">
           <img
-            src="/assets/checklist.png" // Replace with a relevant image
+            src="/assets/checklist.png" 
             alt="Track Deadlines"
-            className="rounded-lg transform transition-all hover:scale-110 hover:-rotate-3 duration-500 ease-in-out hover:shadow-xl"
+            className="rounded-lg transform transition-all hover:scale-110 hover:-rotate-3 duration-500 ease-in-out hover:shadow-xl max-w-full max-h-[800px]"
           />
         </div>
       </div>
@@ -131,7 +139,7 @@ const HomePage = ({ user }) => {
           <img
             src="/assets/major.png"
             alt="Discover Major"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 max-w-full max-h-[800px]"
           />
         </div>
       </div>
@@ -152,10 +160,51 @@ const HomePage = ({ user }) => {
           <img
             src="/assets/essays.png"
             alt="Essay Examples"
-            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 max-w-full max-h-[800px]"
           />
         </div>
       </div>
+
+      <div
+        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
+          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
+        }`}
+      >
+        <div className="w-1/2">
+          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Stay on Top</h2>
+          <p className="text-xl mb-6 text-gray-700">
+            Keep Track of your deadlines with our calendar and deadline email notifications.
+          </p>
+        </div>
+        <div className="w-1/2">
+          <img
+            src="/assets/calendar.png"
+            alt="Track Deadlines"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:rotate-3 max-w-full max-h-[800px]"
+          />
+        </div>
+      </div>
+
+      <div
+        className={`flex items-center justify-between p-16 mt-20 bg-opacity-20 bg-white rounded-lg shadow-lg transform transition-all ${
+          isLoaded ? "scale-100 rotate-0" : "scale-90 rotate-5"
+        }`}
+      >
+        <div className="w-1/2 order-2 p-5">
+          <h2 className="text-4xl font-extrabold mb-6 text-gray-800">Compare Stats</h2>
+          <p className="text-xl mb-6 text-gray-700">
+            Compare metrics on colleges to determine your best fit
+          </p>
+        </div>
+        <div className="w-1/2 order-1">
+          <img
+            src="/assets/compare.png"
+            alt="Compare Colleges"
+            className="rounded-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:-rotate-3 max-w-full max-h-[800px]"
+          />
+        </div>
+      </div>
+
     </div>
   );
 };

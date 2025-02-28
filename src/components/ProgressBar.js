@@ -17,17 +17,17 @@ const ProgressBar = ({ checklistState }) => {
 
   // Determine the color based on the progress percentage
   const getProgressColor = (progress) => {
-    if (progress === 100) return "bg-green-500"; // Green when 100%
+    if (progress === 100) return "bg-gradient-to-r from-green-500 via-green-200 to-green-500"; // Green when 100%
     if (progress >= 50) return "bg-gradient-to-r from-yellow-400 to-green-500";
     return "bg-gradient-to-r from-red-400 to-yellow-500";
   };
 
   // The container color changes based on progress
-  const containerColor = progress === 100 ? "bg-green-500" : "bg-gradient-to-r from-indigo-100 via-purple-200 to-pink-100 ";
+  const containerColor = progress === 100 ? "bg-green-500" : "bg-gradient-to-r from-red-500 via-yellow-300 to-green-500";
 
   return (
     <div className={`progress-bar-container p-6 rounded-lg shadow-xl ${containerColor}`}>
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent text-center mb-4">Your Progress!</h2>
+      <h2 className="text-3xl font-bold text-white text-center mb-4">Your Progress!</h2>
       
       <div className="relative">
         <div className="bg-gray-200 rounded-full h-4">
@@ -38,12 +38,12 @@ const ProgressBar = ({ checklistState }) => {
         </div>
 
         <div className="absolute inset-0 flex justify-center items-center">
-          <span className="text-2xl font-semibold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">{progress}%</span>
+          <span className="text-2xl font-semibold text-white">{progress}%</span>
         </div>
       </div>
 
       <div className="mt-4 text-center">
-        <span className="text-lg bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+        <span className="text-lg text-white">
         {progress === 100 ? "Congratulations!" : progress === 0 ? "Let's get started!" : `Keep going, you're making progress!`}
         </span>
       </div>

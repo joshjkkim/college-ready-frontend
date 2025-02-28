@@ -1,29 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { getCollegeResources } from "../api/api";
+import React, { useState } from "react";
 
-const Resources = ({ userId, selectedCollege }) => {
-  const [resources, setResources] = useState(null);
-  const [isCollapsed, setIsCollapsed] = useState(false); // State to control collapse/expand
-
-  useEffect(() => {
-    const fetchResources = async () => {
-      if (selectedCollege) {
-        console.log("Fetching resources for user:", userId, "college:", selectedCollege.collegeName);
-        try {
-          const { success, data } = await getCollegeResources(userId, selectedCollege.collegeName);
-          if (success) {
-            setResources(data);
-          } else {
-            console.error("Failed to fetch resources.");
-          }
-        } catch (error) {
-          console.error("Error fetching resources:", error);
-        }
-      }
-    };
-
-    fetchResources();
-  }, [selectedCollege, userId]);
+const Resources = ({ resources, selectedCollege }) => {
+  const [isCollapsed, setIsCollapsed] = useState(true); // State to control collapse/expand
 
   if (!selectedCollege) {
     return <p className="text-center text-gray-500 mt-8">Select a college to view its resources.</p>;
@@ -41,13 +19,12 @@ const Resources = ({ userId, selectedCollege }) => {
           
       <button
         onClick={() => setIsCollapsed((prev) => !prev)}
-        className="w-full p-2 text-white bg-gradient-to-r from-blue-500 to-indigo-600 font-semibold rounded-lg mb-4 hover:bg-gray-400 transition-all duration-300"
+        className="w-3/12 p-2 text-white bg-gradient-to-r from-blue-500 to-indigo-600 font-semibold rounded-lg mb-4 hover:bg-gray-400 transition-all duration-300"
       >
-        {isCollapsed ? "Hide College Resources" : "Show College Resources"}
+        {isCollapsed ? "Show College Resources" : "Hide College Resources"}
       </button>
 
-      {isCollapsed && (
-        <div>
+        <div className={`overflow-hidden transition-all duration-1000 ${isCollapsed ? "max-h-0" : "max-h-[100vh] overflow-y-auto"}`}>
           <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Helpful Links</h3>
             <ul className="list-disc pl-6 space-y-2">
@@ -93,7 +70,6 @@ const Resources = ({ userId, selectedCollege }) => {
             </ul>
           </div>
         </div>
-      )}
     </div>
   );
 };

@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getCollegeChecklist, updateChecklist } from "../api/api";
 import ProgressBar from "./ProgressBar";
 
-const Checklist = ({ userId, selectedCollege }) => {
+const Checklist = ({ userId, selectedCollege, isEditMode, setIsEditMode }) => {
   const [checklist, setChecklist] = useState(null); // Holds the checklist data
   const [checklistState, setChecklistState] = useState({}); // Tracks checkbox states
-  const [isEditMode, setIsEditMode] = useState(false); 
   const [tempChecklist, setTempChecklist] = useState(null); 
 
   // Fetch the checklist data when the selected college changes
   useEffect(() => {
     const fetchChecklist = async () => {
-      if (selectedCollege) {
+      if (selectedCollege && selectedCollege.collegeName) {
         console.log("Fetching checklist for user:", userId, "college:", selectedCollege.collegeName);
         try {
           const { success, data } = await getCollegeChecklist(userId, selectedCollege.collegeName);
@@ -121,12 +120,8 @@ const Checklist = ({ userId, selectedCollege }) => {
     }
   };
 
-  if (!selectedCollege) {
-    return <p>Select a college to view its checklist.</p>;
-  }
-
   if (!checklist) {
-    return <p>Loading checklist...</p>;
+    return;
   }
 
   return (

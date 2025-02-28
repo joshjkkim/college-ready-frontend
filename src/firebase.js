@@ -1,6 +1,15 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-
+import { 
+  initializeApp 
+} from "firebase/app";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification
+} from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -15,12 +24,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Get Firebase Authentication instance
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// Sign-in with Google function
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -28,12 +34,36 @@ export const signInWithGoogle = async () => {
     console.log("User signed in:", user);
     return user;
   } catch (error) {
-    console.error("Error signing in:", error.message);
-    return null;
+    console.error("Error signing in with Google:", error.message);
+    throw error;
   }
 };
 
-// Sign out function
+export const signUpWithEmail = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    // Send verification email after successful sign-up
+    await sendEmailVerification(user);
+    console.log("User signed up:", user, "Verification email sent.");
+    return user;
+  } catch (error) {
+    console.error("Error signing up:", error.message);
+    throw error;
+  }
+};
+
+export const signInWithEmail = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User signed in:", userCredential.user);
+    return userCredential.user;
+  } catch (error) {
+    console.error("Error signing in:", error.message);
+    throw error;
+  }
+};
+
 export const signOutUser = async () => {
   try {
     await signOut(auth);

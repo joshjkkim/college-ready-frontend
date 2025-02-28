@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingScreen = ({ message = "Loading..." }) => {
+const LoadingScreen = ({ message = "Taking our time :D" }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="flex flex-col items-center">

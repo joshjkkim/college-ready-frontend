@@ -2,7 +2,15 @@
 import axios from "axios";
 import { auth } from "../firebase.js"
 
-const apiLink = "http://localhost:8080"
+const apiLink = "https://dumdum.work"
+
+axios.interceptors.request.use(async (config) => {
+  const token = await auth.currentUser?.getIdToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const getUserId = () => {
     const user = auth.currentUser;
@@ -333,13 +341,13 @@ export const removeNote = async (noteTitle) => {
     }
   };
 
-  export const getCollegeResources = async (userId, collegeName) => {
+  export const getCollegeResourcesDemographics = async (userId, collegeName) => {
     try {
-      const response = await axios.get(`${apiLink}/get-college-resources`, {
+      const response = await axios.get(`${apiLink}/get-college-resources-demographics`, {
         params: { userId, collegeName },
       });
-      if (response.data.message === "Resources found") {
-        return { success: true, data: response.data.resources, message: response.data.message }; // Corrected access to 'colleges'
+      if (response.data.message === "Resources and Demographics found") {
+        return { success: true, resources: response.data.resources, demographics: response.data.demographics, message: response.data.message }; // Corrected access to 'colleges'
       } else {
         return { success: false, message: "Colleges not found for user" };
       }
@@ -451,5 +459,124 @@ export const getCollegeSuggestions = async (query) => {
   } catch (error) {
     console.error("Error fetching major suggestions:", error);
     throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
+export const getStaffRoles = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/get-staff-roles`, {
+      params: { userId }, 
+    });
+
+    if (response.data.message === "Staff Role Found for User") {
+      return { success: true, data: response.data.role, message: response.data.message };
+    } else {
+      return { success: false, message: "No Staff Roles Found" };
+    }
+  } catch (error) {
+    console.error("Error fetching major suggestions:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
+export const getAdminMetrics = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/metrics`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, metrics: response.data.metrics };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin metrics:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
+  }
+};
+
+
+// Function to get a list of all colleges (admin view)
+export const getAdminColleges = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/colleges`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, colleges: response.data.colleges };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin colleges:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
+  }
+};
+
+// Function to get a list of all staff members (admin view)
+export const getAdminStaff = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/staff`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, staff: response.data.staff };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin staff:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
+  }
+};
+
+// NEW: Function to get a list of all major colleges (admin view)
+export const getAdminMajorColleges = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/major-colleges`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, majorColleges: response.data.majorColleges };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin major colleges:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
+  }
+};
+
+// NEW: Function to get a list of all user colleges (admin view)
+export const getAdminUserColleges = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/user-colleges`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, userColleges: response.data.userColleges };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin user colleges:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
+  }
+};
+
+// NEW: Function to get profile notes for all users (admin view)
+export const getAdminProfileNotes = async (userId) => {
+  try {
+    const response = await axios.get(`${apiLink}/admin/profile-notes`, {
+      params: { userId },
+    });
+    if (response.data.success) {
+      return { success: true, profileNotes: response.data.profileNotes };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    console.error("Error fetching admin profile notes:", error);
+    return { success: false, message: error.response?.data?.message || error.message };
   }
 };

@@ -2,23 +2,25 @@ import React, { useState, useEffect } from "react";
 import { getCollegesForUser, removeUserCollege } from "../api/api";
 import { FiChevronLeft, FiTrash, FiChevronRight } from "react-icons/fi";
 
-const Sidebar = ({ userId, onSelectCollege, onCollegeRemoved, isCollapsed, setIsCollapsed }) => {
+const Sidebar = ({ userId, onSelectCollege, onCollegeRemoved, isCollapsed, setIsCollapsed, setLoading }) => {
   const [colleges, setColleges] = useState([]);
 
   useEffect(() => {
     const fetchColleges = async () => {
+      setLoading(true)
       try {
         if (userId) {
           const { success, data, message } = await getCollegesForUser(userId);
           if (success) {
             setColleges(data);
-          } else {
+          } else { 
             console.log(message);
           }
         }
       } catch (error) {
         console.error("Error fetching colleges:", error);
       }
+      setLoading(false)
     };
 
     fetchColleges();
@@ -42,7 +44,7 @@ const Sidebar = ({ userId, onSelectCollege, onCollegeRemoved, isCollapsed, setIs
 
   return (
     <div
-      className={`sticky top-0 h-screen bg-gray-900 text-white p-4 transition-all duration-300 shadow-lg ${
+      className={`sticky top-0 h-screen bg-gradient-to-r from-indigo-900 to-blue-800 text-white p-4 transition-all duration-300 shadow-lg ${
         isCollapsed ? "w-16" : "w-64"
       }`}
     >
