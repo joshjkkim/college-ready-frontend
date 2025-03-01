@@ -29,7 +29,6 @@ const HomePage = ({ user }) => {
       <div className="relative z-10">
         <div className="min-h-screen flex flex-col items-center justify-center bg-opacity-80 text-center text-white drop-shadow-xl">
           <div className="fixed inset-0 w-full h-full">
-            <ConstellationBackground />
           </div>
       
           <div
