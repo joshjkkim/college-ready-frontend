@@ -4,7 +4,6 @@ import {
 import { 
   getAuth, 
   GoogleAuthProvider, 
-  signInWithRedirect,
   signInWithPopup, 
   signOut,
   createUserWithEmailAndPassword,
@@ -30,16 +29,10 @@ const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
   try {
-    if (window.innerWidth <= 768) {
-      // Use Redirect for Mobile (Fixes Google Secure Browser Policy)
-      const result = await signInWithRedirect(auth, provider);
-      return result.user;
-    } else {
-      // Use Popup for Desktop
-      const result = await signInWithPopup(auth, provider);
-      console.log("User signed in:", result.user);
-      return result.user;
-    }
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("User signed in:", user);
+    return user;
   } catch (error) {
     console.error("Error signing in with Google:", error.message);
     throw error;
