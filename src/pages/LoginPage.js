@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signInWithGoogle, signUpWithEmail, signInWithEmail, signOutUser, auth } from "../firebase"; 
 import { updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; 
+import { Helmet } from "react-helmet";
 import ConstellationBackground from "../components/Constellation";
 
 const LoginPage = () => {
@@ -95,6 +96,26 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
+      <Helmet>
+        <title>College Ready - Login</title>
+        <meta
+          name="description"
+          content="Sign in or sign up to College Ready to discover your perfect college, track deadlines, and stay on top of your dreams."
+        />
+        <meta property="og:title" content="College Ready - Login" />
+        <meta
+          property="og:description"
+          content="Login or sign up to College Ready to find colleges, track deadlines, and get inspired."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/login" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - Login" />
+        <meta
+          name="twitter:description"
+          content="Sign in or sign up to College Ready to find your college, track deadlines, and get inspired."
+        />
+      </Helmet>
       <div className="relative z-10">
         <div className="min-h-screen flex flex-col items-center justify-center text-center text-white drop-shadow-xl">
           <div className="fixed inset-0 w-full h-full pointer-events-none">

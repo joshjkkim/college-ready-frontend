@@ -7,6 +7,7 @@ import Demographics from "../components/CollegeDemographics";
 import { auth } from "../firebase";
 import LoadingScreen from "../components/LoadingScreen";
 import { getCollegeResourcesDemographics } from "../api/api";
+import { Helmet } from "react-helmet";
 
 const UserPage = () => {
   const user = auth.currentUser;
@@ -72,6 +73,26 @@ const UserPage = () => {
   return (
     // Adding overflow-x-hidden prevents horizontal scrolling on mobile
     <div className="relative flex min-h-screen overflow-x-auto max-w-screen">
+      <Helmet>
+        <title>College Ready - Dashboard</title>
+        <meta
+          name="description"
+          content="View your dashboard on College Ready: manage your selected colleges, explore resources, review demographics, and track your checklist and major stats."
+        />
+        <meta property="og:title" content="College Ready - Dashboard" />
+        <meta
+          property="og:description"
+          content="Your personalized dashboard on College Ready. Manage your colleges, access resources, and track your progress."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/usercolleges" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - Dashboard" />
+        <meta
+          name="twitter:description"
+          content="Access your personalized College Ready dashboard to manage your college search and track important metrics."
+        />
+      </Helmet>
       {loading && <LoadingScreen />}
 
       {/* Sidebar is rendered as a fixed overlay on mobile via its own internal state */}

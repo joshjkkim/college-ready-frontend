@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet";
 
 // Custom accordion component with animation
 const FAQItem = ({ question, answer }) => {
@@ -347,6 +348,26 @@ const AboutPage = ({ user }) => {
 
   return (
     <div className="bg-gradient-to-r from-blue-50 to-purple-50 min-h-screen overflow-x-hidden">
+      <Helmet>
+        <title>College Ready - About Us</title>
+        <meta
+          name="description"
+          content="Learn about College Ready: who we are, our mission, and how you can get in touch. Find FAQs, donate, or contact us to learn more."
+        />
+        <meta property="og:title" content="College Ready - About Us" />
+        <meta
+          property="og:description"
+          content="Discover College Ready, our mission, FAQs, contact information, and how you can support our work through donations."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/about" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - About Us" />
+        <meta
+          name="twitter:description"
+          content="Learn about College Ready, our mission, FAQs, and how you can contact or donate to support us."
+        />
+      </Helmet>
       <div className="pt-12 pb-24 px-4 md:px-12 max-w-6xl mx-auto">
         {/* Animated Header Section */}
         <motion.div

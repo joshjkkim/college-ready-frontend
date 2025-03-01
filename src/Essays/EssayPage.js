@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getPrompts, getEssays, getCollegesForEssays } from '../api/api.js';
 import LoadingScreen from '../components/LoadingScreen.js'; 
+import { Helmet } from 'react-helmet';
 
 const CollegeEssays = () => {
   const [collegeName, setCollegeName] = useState('');
@@ -76,6 +77,26 @@ const CollegeEssays = () => {
 
   return (
     <div className="">
+      <Helmet>
+        <title>College Ready - College Essay Prompts</title>
+        <meta
+          name="description"
+          content="Discover college essay prompts on College Ready. Explore prompts for your favorite colleges and get inspired for your next big essay."
+        />
+        <meta property="og:title" content="College Ready - College Essay Prompts" />
+        <meta
+          property="og:description"
+          content="Discover college essay prompts on College Ready. Explore prompts for your favorite colleges and get inspired for your next big essay."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/essay-prompts" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - College Essay Prompts" />
+        <meta
+          name="twitter:description"
+          content="Discover college essay prompts on College Ready. Explore prompts for your favorite colleges and get inspired for your next big essay."
+        />
+      </Helmet>
       {loading && <LoadingScreen />} 
       <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-lg p-8 transform transition-all duration-300">
         <h1 className="text-5xl font-bold text-center text-indigo-700 mb-8">College Essay Prompts</h1>

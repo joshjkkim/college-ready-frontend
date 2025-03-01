@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TypingEffect from "../components/TypingEffect";
+import { Helmet } from "react-helmet";
 import { signOutUser } from "../firebase";
 import { useNavigate } from "react-router-dom"; 
 import ConstellationBackground from "../components/Constellation";
@@ -26,6 +27,26 @@ const HomePage = ({ user }) => {
 
   return (
     <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
+      <Helmet>
+        <title>College Ready - Home</title>
+        <meta
+          name="description"
+          content="Are you College Ready? Discover colleges, track deadlines, explore majors, get inspired by essay examples, and compare stats to find your perfect fit."
+        />
+        <meta property="og:title" content="College Ready - Home" />
+        <meta
+          property="og:description"
+          content="Discover colleges, track deadlines, explore majors, and compare stats with College Ready."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - Home" />
+        <meta
+          name="twitter:description"
+          content="Discover colleges, track deadlines, explore majors, and compare stats with College Ready."
+        />
+      </Helmet>
       <div className="relative z-10">
         <div className="min-h-screen flex flex-col items-center justify-center bg-opacity-80 text-center text-white drop-shadow-xl">
           <div className="fixed inset-0 w-full h-full">

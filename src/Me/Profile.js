@@ -10,6 +10,7 @@ import {
 import Calendar from '../components/Calendar.js';
 import LoadingScreen from '../components/LoadingScreen.js'; 
 import Notes from '../components/Notes.js';
+import { Helmet } from 'react-helmet';
 
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -100,6 +101,26 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container max-w-4xl mx-auto p-4">
+      <Helmet>
+        <title>College Ready - Your Profile</title>
+        <meta
+          name="description"
+          content="Manage your profile on College Ready: update your display name, change your password, reset your password, and view your calendar and notes."
+        />
+        <meta property="og:title" content="College Ready - Your Profile" />
+        <meta
+          property="og:description"
+          content="Manage your account settings, view your calendar, and take notes—all from your College Ready profile."
+        />
+        <meta property="og:url" content="https://www.collegeready.me/profile" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="College Ready - Your Profile" />
+        <meta
+          name="twitter:description"
+          content="Update your display name, change your password, and manage your profile on College Ready."
+        />
+      </Helmet>
       {loading && <LoadingScreen />}
       <h1 className="text-4xl font-bold text-center mb-8 shadow-lg rounded-lg p-4 bg-white">
         Your Profile
