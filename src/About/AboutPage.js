@@ -43,113 +43,6 @@ const FeatureCard = ({ icon, title, description }) => (
   </div>
 );
 
-// Contact form component
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: ""
-      });
-      
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 3000);
-    }, 1500);
-  };
-  
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block text-gray-700 mb-1">Full Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email" className="block text-gray-700 mb-1">Email Address</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="subject" className="block text-gray-700 mb-1">Subject</label>
-        <input
-          type="text"
-          id="subject"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="message" className="block text-gray-700 mb-1">Message</label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows="4"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={`w-full py-3 px-4 rounded-md text-white font-medium ${
-          isSubmitting ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-        } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-      >
-        {isSubmitting ? "Sending..." : "Send Message"}
-      </button>
-      {submitted && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          Thank you for your message! We'll get back to you soon.
-        </div>
-      )}
-    </form>
-  );
-};
-
 // Statistics counter component
 const StatCounter = ({ value, label, duration = 2000 }) => {
   const [count, setCount] = useState(0);
@@ -465,6 +358,48 @@ const AboutPage = ({ user }) => {
                   <StatCounter value="33" label="Deadlines/Statistics/Tips For Each College" />
                 </div>
               </section>
+
+              <section className="bg-white p-8 rounded-xl shadow-lg mb-8 text-center">
+                <div className="flex flex-col items-center">
+                <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">Who Am I?</h2>
+                  <img
+                    src="/assets/headshot.jpg"
+                    alt="Joshua Kim"
+                    className="w-24 h-24 rounded-full mb-4 border-2 border-gray-300"
+                  />
+                  <p className="text-lg text-gray-700">
+                    I'm Joshua Kim, a University of Michigan student who built College Ready to simplify the college application process.
+                  </p>
+                  <a
+                    href="https://kimjoshua.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 flex items-center space-x-2 text-blue-600 hover:underline"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 01-8 0 4 4 0 018 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 14a9 9 0 00-9 9h18a9 9 0 00-9-9z"
+                      />
+                    </svg>
+                    <span>kimjoshua.com</span>
+                  </a>
+                </div>
+              </section>
               
             </motion.div>
           )}
@@ -572,10 +507,12 @@ const AboutPage = ({ user }) => {
                 <p className="text-lg text-gray-700 mb-4">
                   For any inquiries, please reach out to us at:
                 </p>
-                <p className="text-xl text-blue-600 font-semibold">
+                <a
+                  href="mailto:support@collegeprep.com"
+                  className="text-xl text-blue-600 font-semibold hover:underline"
+                >
                   support@collegeprep.com
-                </p>
-                <ContactForm />
+                </a>
               </section>
             </motion.div>
           )}
@@ -587,15 +524,20 @@ const AboutPage = ({ user }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <section className="bg-white p-8 rounded-xl shadow-lg text-center">
-                <h2 className="text-3xl font-semibold mb-6 text-gray-800">Donate</h2>
-                <p className="text-lg text-gray-700 mb-4">
-                  College Ready runs purely on donations, your support helps us continue to run!
-                </p>
-                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-colors">
-                  Donate Now
-                </button>
-              </section>
+             <section className="bg-white p-8 rounded-xl shadow-lg text-center">
+              <h2 className="text-3xl font-semibold mb-6 text-gray-800">Donate</h2>
+              <p className="text-lg text-gray-700 mb-4">
+                College Ready runs purely on donations; your support helps us continue to run!
+              </p>
+              <a
+                href="https://www.buymeacoffee.com/joshuakim"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-colors"
+              >
+                Buy me a Coffee ☕
+              </a>
+            </section>
             </motion.div>
           )}
         </div>
