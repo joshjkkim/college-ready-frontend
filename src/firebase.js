@@ -14,7 +14,7 @@ import {
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBqsD0f9AV20lJkT1QDBHIFchFKSImYzqw",
-  authDomain: "collegeprep-6d519.firebaseapp.com",
+  authDomain: "auth.collegeready.me",
   projectId: "collegeprep-6d519",
   storageBucket: "collegeprep-6d519.firebasestorage.app",
   messagingSenderId: "695212357545",
