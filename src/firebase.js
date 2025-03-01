@@ -11,7 +11,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 
-// Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyBqsD0f9AV20lJkT1QDBHIFchFKSImYzqw",
   authDomain: "auth.collegeready.me",
@@ -22,17 +22,20 @@ const firebaseConfig = {
   measurementId: "G-ZR8ZW41CFF"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log("User signed in:", user);
-    return user;
+    if (window.innerWidth <= 768) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      const result = await signInWithPopup(auth, provider);
+      console.log("User signed in:", result.user);
+      return result.user;
+    }
   } catch (error) {
     console.error("Error signing in with Google:", error.message);
     throw error;
@@ -43,7 +46,7 @@ export const signUpWithEmail = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    // Send verification email after successful sign-up
+    
     await sendEmailVerification(user);
     console.log("User signed up:", user, "Verification email sent.");
     return user;
