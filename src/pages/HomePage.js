@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { signOutUser } from "../firebase";
 import { useNavigate } from "react-router-dom"; 
 import ConstellationBackground from "../components/Constellation";
+import SEO from "../components/SEO";
 
 const HomePage = ({ user }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +28,7 @@ const HomePage = ({ user }) => {
 
   return (
     <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
+      <SEO />
       <Helmet>
         <title>College Ready - Home</title>
         <meta
@@ -39,6 +41,7 @@ const HomePage = ({ user }) => {
           content="Discover colleges, track deadlines, explore majors, and compare stats with College Ready."
         />
         <meta property="og:url" content="https://www.collegeready.me/" />
+        <meta property="og:image" content="https://www.collegeready.me/icon.png" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="College Ready - Home" />

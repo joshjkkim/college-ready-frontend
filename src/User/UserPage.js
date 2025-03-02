@@ -8,6 +8,7 @@ import { auth } from "../firebase";
 import LoadingScreen from "../components/LoadingScreen";
 import { getCollegeResourcesDemographics } from "../api/api";
 import { Helmet } from "react-helmet";
+import SEO from "../components/SEO";
 
 const UserPage = () => {
   const user = auth.currentUser;
@@ -73,6 +74,7 @@ const UserPage = () => {
   return (
     // Adding overflow-x-hidden prevents horizontal scrolling on mobile
     <div className="relative flex min-h-screen overflow-x-auto max-w-screen">
+      <SEO />
       <Helmet>
         <title>College Ready - Dashboard</title>
         <meta

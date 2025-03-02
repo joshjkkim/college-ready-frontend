@@ -3,6 +3,7 @@ import { signInWithGoogle, signUpWithEmail, signInWithEmail, signOutUser, auth }
 import { updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; 
 import { Helmet } from "react-helmet";
+import SEO from "../components/SEO";
 import ConstellationBackground from "../components/Constellation";
 
 const LoginPage = () => {
@@ -96,6 +97,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen w-full relative bg-gradient-to-r from-purple-200 to-blue-200 overflow-hidden">
+      <SEO />
       <Helmet>
         <title>College Ready - Login</title>
         <meta

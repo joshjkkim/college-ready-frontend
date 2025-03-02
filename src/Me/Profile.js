@@ -11,6 +11,7 @@ import Calendar from '../components/Calendar.js';
 import LoadingScreen from '../components/LoadingScreen.js'; 
 import Notes from '../components/Notes.js';
 import { Helmet } from 'react-helmet';
+import SEO from '../components/SEO.js';
 
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -101,6 +102,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container max-w-4xl mx-auto p-4">
+      <SEO />
       <Helmet>
         <title>College Ready - Your Profile</title>
         <meta

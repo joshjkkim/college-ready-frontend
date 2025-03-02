@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchPage from "../pages/SearchPage";
 import CompareColleges from "../pages/CompareColleges";
 import { Helmet } from "react-helmet";
+import SEO from "../components/SEO";
 
 const CollegeDashboard = () => {
   const [mode, setMode] = useState("search"); // "search" or "compare"
@@ -12,6 +13,7 @@ const CollegeDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-100 py-8">
+      <SEO />
       <Helmet>
         <title>College Ready - College Search</title>
         <meta

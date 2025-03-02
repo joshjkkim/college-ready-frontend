@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getPrompts, getEssays, getCollegesForEssays } from '../api/api.js';
 import LoadingScreen from '../components/LoadingScreen.js'; 
 import { Helmet } from 'react-helmet';
+import SEO from '../components/SEO.js';
 
 const CollegeEssays = () => {
   const [collegeName, setCollegeName] = useState('');
@@ -77,6 +78,7 @@ const CollegeEssays = () => {
 
   return (
     <div className="">
+      <SEO />
       <Helmet>
         <title>College Ready - College Essay Prompts</title>
         <meta

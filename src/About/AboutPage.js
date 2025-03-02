@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet";
+import SEO from "../components/SEO";
 
 // Custom accordion component with animation
 const FAQItem = ({ question, answer }) => {
@@ -241,6 +242,7 @@ const AboutPage = ({ user }) => {
 
   return (
     <div className="bg-gradient-to-r from-blue-50 to-purple-50 min-h-screen overflow-x-hidden">
+      <SEO />
       <Helmet>
         <title>College Ready - About Us</title>
         <meta
