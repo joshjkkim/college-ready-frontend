@@ -11,7 +11,7 @@ const SEO = () => (
       name="description"
       content="College Ready is your one-stop platform to organize college information, track application deadlines, explore majors, and get inspired by essay examples. Perfect for high school students preparing for college applications."
     />
-
+    <link rel="canonical" href="https://www.collegeready.me/" />
     {/* Open Graph / Facebook Meta Tags */}
     <meta property="og:title" content="College Ready - The Ultimate College Organizer & Application Tracker" />
     <meta
